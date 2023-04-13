@@ -14,8 +14,11 @@ class Controller extends BaseController
     const RESPONSE_SUCCESS = true;
     const RESPONSE_ERROR = false;
 
-    protected function jsonRes($message, $status = self::RESPONSE_ERROR, $responseCode = 200)
+    protected function jsonRes($message, $status = self::RESPONSE_ERROR, $responseCode = 400)
     {
+        if ($status == self::RESPONSE_SUCCESS) {
+            $responseCode = 200;
+        }
         $response = [
             "code" => (string) $responseCode,
             "status" => $status,
