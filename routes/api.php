@@ -20,9 +20,13 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/posts', [PostController::class, 'index'])->middleware(['auth:sanctum'])->name('index');
-Route::get('/posts/{id}', [PostController::class, 'show'])->middleware(['auth:sanctum'])->name('show');
+Route::middleware(['auth:sanctum'])->group(function () {
+  Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+  Route::get('/authCheck', [AuthController::class, 'authCheck'])->name('authCheck');
+  Route::post('/posts', [PostController::class, 'store'])->name('store');
+});
+
+Route::get('/posts', [PostController::class, 'index'])->name('index');
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('show');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum'])->name('logout');
-Route::get('/authCheck', [AuthController::class, 'authCheck'])->middleware(['auth:sanctum'])->name('authCheck');
