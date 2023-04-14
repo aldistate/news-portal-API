@@ -35,6 +35,9 @@ class AuthController extends Controller
 
     public function authCheck()
     {
-        return response()->json(Auth::user());
+        return response()->json([
+            'username' => Auth::user()->username,
+            'email' => Auth::user()->email
+        ]);
     }
 }
