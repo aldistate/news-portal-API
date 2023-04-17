@@ -39,4 +39,12 @@ class PostController extends Controller
         $post = Post::create($request->all());
         return new PostDetailResource($post);
     }
+
+    public function update(Request $request, $id)
+    {
+        // $request->validate([
+        //     'title' => 'required|max:200',
+        //     'news_content' => 'required',
+        // ]);
+    }
 }
