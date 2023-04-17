@@ -16,7 +16,8 @@ class PostDetailResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'author' => 'ditulis oleh ' . $this->user->username,
+            'author' => $this->user->username,
+            'author_id' => $this->user->id,
             'title' => $this->title,
             'news_content' => $this->news_content,
             'created_at' => date_format($this->created_at, 'Y-m-d H:i:s'),
