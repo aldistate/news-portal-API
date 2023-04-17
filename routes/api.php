@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
   Route::get('/authCheck', [AuthController::class, 'authCheck'])->name('authCheck');
   Route::post('/posts', [PostController::class, 'store'])->name('store');
+  Route::patch('/posts/{id}', [PostController::class, 'update'])->name('update')->middleware('isAuthor');
 });
 
 Route::get('/posts', [PostController::class, 'index'])->name('index');
