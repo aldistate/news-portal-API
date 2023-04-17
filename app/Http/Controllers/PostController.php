@@ -42,9 +42,14 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'title' => 'required|max:200',
-        //     'news_content' => 'required',
-        // ]);
+        $validated = $request->validate([
+            'title' => 'required|max:200',
+            'news_content' => 'required',
+        ]);
+
+        $post = Post::findOrFail($id);
+        $post->update($validated);
+
+        return new PostDetailResource($post);
     }
 }
