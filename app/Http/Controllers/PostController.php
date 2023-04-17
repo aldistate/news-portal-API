@@ -52,4 +52,14 @@ class PostController extends Controller
 
         return new PostDetailResource($post);
     }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return response()->json([
+            'message' => 'data berhasil dihapus'
+        ], 200);
+    }
 }
