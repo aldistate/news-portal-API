@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,12 +24,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
   Route::get('/authCheck', [AuthController::class, 'authCheck'])->name('authCheck');
-  Route::post('/posts', [PostController::class, 'store'])->name('store');
-  Route::patch('/posts/{id}', [PostController::class, 'update'])->name('update')->middleware('isAuthor');
-  Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('destroy')->middleware('isAuthor');
+  Route::post('/posts', [PostController::class, 'store'])->name('storePost');
+  Route::patch('/posts/{id}', [PostController::class, 'update'])->name('updatePost')->middleware('isAuthor');
+  Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('destroyPost')->middleware('isAuthor');
+
+  Route::post('/comment', [CommentController::class, 'store'])->name('storeComment');
 });
 
-Route::get('/posts', [PostController::class, 'index'])->name('index');
-Route::get('/posts/{id}', [PostController::class, 'show'])->name('show');
+Route::get('/posts', [PostController::class, 'index'])->name('indexPost');
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('showPost');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
