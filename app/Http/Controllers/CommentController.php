@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,6 @@ class CommentController extends Controller
         $request['user_id'] = $auth;
         $comment = Comment::create($request->all());
 
-        return response()->json($comment, 200);
+        return new CommentResource($comment);
     }
 }
