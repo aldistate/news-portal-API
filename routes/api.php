@@ -29,6 +29,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('destroyPost')->middleware('isAuthor');
 
   Route::post('/comment', [CommentController::class, 'store'])->name('storeComment');
+  Route::patch('/comment/{id}', [CommentController::class, 'update'])->name('updateComment')->middleware('isComment');
 });
 
 Route::get('/posts', [PostController::class, 'index'])->name('indexPost');
