@@ -35,4 +35,14 @@ class CommentController extends Controller
 
         return new CommentResource($comment);
     }
+
+    public function destroy($id)
+    {
+        $comment = Comment::find($id);
+        $comment->delete();
+
+        return response()->json([
+            'message' => 'data berhasil dihapus'
+        ], 200);
+    }
 }
