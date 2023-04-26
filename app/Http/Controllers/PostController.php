@@ -15,7 +15,7 @@ class PostController extends Controller
         $posts = Post::all();
         // return response()
         //         ->json(['data' => $posts]);
-        return PostResource::collection($posts);
+        return PostResource::collection($posts->loadMissing('comments:id,post_id,user_id,comments_content'));
     }
 
     public function show($id)
@@ -23,7 +23,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         // return response()
         //         ->json(['data' => $post]);
-        return new PostDetailResource($post);
+        return new PostResource($post->loadMissing('comments:id,post_id,user_id,comments_content'));
     }
 
     public function store(Request $request)

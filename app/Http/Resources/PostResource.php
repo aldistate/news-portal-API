@@ -17,10 +17,18 @@ class PostResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'author' => 'ditulis oleh ' . $this->user->username,
+            'author' => $this->user->username,
             'title' => $this->title,
             'news_content' => $this->news_content,
             'created_at' => date_format($this->created_at, 'Y-m-d H:i:s'),
+            'comment' => $this->whenLoaded('comments', function () {
+                return collect($this->comments)->each(function ($comment) {
+                    return $comment->comentator;
+                });
+            }),
+            'comments_total' => $this->whenLoaded('comments', function () {
+                return $this->comments->count();
+            })
         ];
     }
 }
