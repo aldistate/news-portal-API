@@ -7,9 +7,20 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    function generateRandomString($length = 15) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     public function index()
     {
         $posts = Post::all();
@@ -33,11 +44,21 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|max:200',
             'news_content' => 'required',
+            'foto' => 'file|max:5000|mimes:png,jpg,jpeg'
         ]);
 
+        if ($request->file('foto')) {
+            $foto_file = $this->generateRandomString();
+            $extension = $request->file('foto')->extension();
+            $foto_name = $foto_file . "." . $extension;
+
+            Storage::putFileAs('image', $request->file('foto'), $foto_name);
+        }
+
+        $request['image'] = $foto_name;
         $request['author'] = $auth;
         $post = Post::create($request->all());
-        return new PostDetailResource($post);
+        return new PostResource($post);
     }
 
     public function update(Request $request, $id)
