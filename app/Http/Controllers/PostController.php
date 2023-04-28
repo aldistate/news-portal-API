@@ -53,9 +53,9 @@ class PostController extends Controller
             $foto_name = $foto_file . "." . $extension;
 
             Storage::putFileAs('image', $request->file('foto'), $foto_name);
+            $request['image'] = $foto_name;
         }
 
-        $request['image'] = $foto_name;
         $request['author'] = $auth;
         $post = Post::create($request->all());
         return new PostResource($post);
